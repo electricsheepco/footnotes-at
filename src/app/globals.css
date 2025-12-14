@@ -98,3 +98,20 @@ h3, h4, h5, h6 {
 .prose blockquote p {
   margin: 0;
 }
+
+/* Remove quotation marks from blockquotes (Tailwind typography adds these) */
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+/* Emphasis uses italic style */
+.prose em {
+  font-style: italic;
+}
+
+/* Titles in italic */
+.prose cite,
+.prose dfn {
+  font-style: italic;
+}
