@@ -20,6 +20,10 @@
   }
 }
 
+/*
+ * Body font: change --font-serif in layout.tsx to swap fonts.
+ * Layout uses rem/em units - no breakage on font change.
+ */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -65,9 +69,10 @@ h3, h4, h5, h6 {
 }
 
 /* Typography refinements for prose */
-/* Reading width: 60-70 characters per line */
+/* Reading width: ~60-70 characters per line */
+/* Using rem instead of ch for font-swap stability */
 .prose {
-  max-width: 65ch;
+  max-width: 38rem; /* ~608px, stable across font changes */
   --tw-prose-body: #404040;
   --tw-prose-headings: #171717;
   --tw-prose-links: #171717;
@@ -108,11 +113,11 @@ h3, h4, h5, h6 {
 
 /* Quoted/referenced material: lighter and smaller */
 .prose blockquote {
-  font-size: 0.9375rem; /* 15px, ~88% of body */
+  font-size: 0.88em; /* ~88% of parent, scales with font changes */
   color: #737373;
   border-left: none;
   padding-left: 0;
-  margin-left: 1.5rem;
+  margin-left: 1.5em;
   font-style: normal;
 }
 
