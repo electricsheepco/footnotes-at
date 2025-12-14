@@ -28,7 +28,7 @@ export function FootnoteCard({ footnote, authorHandle }: FootnoteCardProps) {
       <div className="mt-4 flex items-center gap-4">
         <time
           dateTime={footnote.publishedAt?.toISOString()}
-          className="text-sm text-neutral-400 dark:text-neutral-500"
+          className="font-ui text-sm text-neutral-400 dark:text-neutral-500"
         >
           {footnote.publishedAt && formatDate(footnote.publishedAt)}
         </time>

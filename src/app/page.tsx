@@ -39,7 +39,7 @@ export default async function HomePage() {
         </p>
       </header>
 
-      <section className="mb-16 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed space-y-2">
+      <section className="font-ui mb-16 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed space-y-2">
         <p>
           This is a shared space where anyone can publish short pieces called footnotes.
         </p>
@@ -60,12 +60,12 @@ export default async function HomePage() {
       {author && footnotes.length > 0 && (
         <section>
           <div className="flex items-baseline justify-between mb-6">
-            <h2 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+            <h2 className="font-ui text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
               Recent footnotes
             </h2>
             <Link
               href={`/@${author.handle}`}
-              className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              className="font-ui text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
             >
               View all →
             </Link>
@@ -90,7 +90,7 @@ export default async function HomePage() {
           </p>
           <Link
             href={`/@${author.handle}`}
-            className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            className="font-ui text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             View @{author.handle} →
           </Link>

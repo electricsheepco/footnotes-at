@@ -15,7 +15,7 @@ export function TagList({ tags, authorHandle, className = "" }: TagListProps) {
         <Link
           key={tag.slug}
           href={`/@${authorHandle}/tag/${tag.slug}`}
-          className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          className="font-ui text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
         >
           #{tag.name}
         </Link>
