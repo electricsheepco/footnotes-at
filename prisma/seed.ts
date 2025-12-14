@@ -153,9 +153,10 @@ Maybe it'll get published someday. Maybe it won't.`,
   }
 
   console.log("\nSeed complete!");
-  console.log(`\nLogin at: http://localhost:4050/admin/login`);
+  console.log(`\nLogin at: http://localhost:4050/login`);
   console.log(`Email: ${email}`);
   console.log(`Password: ${password}`);
+  console.log(`\nAfter login, write at: http://localhost:4050/@${handle}/write`);
 }
 
 main()

@@ -54,7 +54,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
       };
 
       if (mode === "create") {
-        const res = await fetch("/api/admin/footnotes", {
+        const res = await fetch("/api/footnotes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -63,13 +63,13 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
         const data = await res.json();
 
         if (res.ok) {
-          router.push(`/admin/edit/${data.id}`);
+          router.push(`/@${authorHandle}/edit/${data.id}`);
           router.refresh();
         } else {
           setError(data.error || "Failed to create");
         }
       } else {
-        const res = await fetch(`/api/admin/footnotes/${footnote!.id}`, {
+        const res = await fetch(`/api/footnotes/${footnote!.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -98,7 +98,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
 
     try {
       // Save first
-      const saveRes = await fetch(`/api/admin/footnotes/${footnote.id}`, {
+      const saveRes = await fetch(`/api/footnotes/${footnote.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -118,7 +118,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
       }
 
       // Then publish
-      const res = await fetch(`/api/admin/footnotes/${footnote.id}/publish`, {
+      const res = await fetch(`/api/footnotes/${footnote.id}/publish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -149,7 +149,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
     setError("");
 
     try {
-      const res = await fetch(`/api/admin/footnotes/${footnote.id}/publish`, {
+      const res = await fetch(`/api/footnotes/${footnote.id}/publish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "unlist" }),
@@ -172,7 +172,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
     setError("");
 
     try {
-      const res = await fetch(`/api/admin/footnotes/${footnote.id}/publish`, {
+      const res = await fetch(`/api/footnotes/${footnote.id}/publish`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "draft" }),
@@ -196,12 +196,12 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
     setError("");
 
     try {
-      const res = await fetch(`/api/admin/footnotes/${footnote.id}`, {
+      const res = await fetch(`/api/footnotes/${footnote.id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
-        router.push("/admin");
+        router.push(`/@${authorHandle}/footnotes`);
         router.refresh();
       } else {
         const data = await res.json();

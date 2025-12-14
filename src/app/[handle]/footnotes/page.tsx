@@ -1,11 +1,38 @@
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { requireAuth } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { formatDate } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
 
-export default async function AdminDashboard() {
-  const session = await requireAuth();
+interface FootnotesPageProps {
+  params: Promise<{ handle: string }>;
+}
+
+export default async function FootnotesPage({ params }: FootnotesPageProps) {
+  const { handle } = await params;
+
+  // Verify the handle exists
+  const author = await db.user.findUnique({
+    where: { handle },
+    select: { id: true, handle: true, displayName: true },
+  });
+
+  if (!author) {
+    notFound();
+  }
+
+  // Check if user is logged in
+  const session = await getSession();
+
+  if (!session) {
+    redirect(`/login?next=/@${handle}/footnotes`);
+  }
+
+  // Verify the logged-in user matches the route handle
+  if (session.user.handle !== handle) {
+    notFound();
+  }
 
   const [footnotes, subscriberCount] = await Promise.all([
     db.footnote.findMany({
@@ -30,34 +57,43 @@ export default async function AdminDashboard() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex items-baseline justify-between mb-8">
-        <h1 className="font-medium">Dashboard</h1>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+        <h1 className="font-medium">Your footnotes</h1>
+        <p className="font-ui">
           {subscriberCount} subscriber{subscriberCount !== 1 ? "s" : ""}
         </p>
+      </div>
+
+      <div className="mb-8">
+        <Link
+          href={`/@${handle}/write`}
+          className="inline-block py-2 px-4 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors"
+        >
+          Write
+        </Link>
       </div>
 
       <div className="space-y-12">
         {drafts.length > 0 && (
           <section>
-            <h2 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-4">
+            <h2 className="font-ui font-medium uppercase tracking-wide mb-4">
               Drafts ({drafts.length})
             </h2>
             <div className="space-y-2">
               {drafts.map((footnote) => (
-                <FootnoteRow key={footnote.id} footnote={footnote} />
+                <FootnoteRow key={footnote.id} footnote={footnote} handle={handle} />
               ))}
             </div>
           </section>
         )}
 
         <section>
-          <h2 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-4">
+          <h2 className="font-ui font-medium uppercase tracking-wide mb-4">
             Published ({published.length})
           </h2>
           {published.length > 0 ? (
             <div className="space-y-2">
               {published.map((footnote) => (
-                <FootnoteRow key={footnote.id} footnote={footnote} />
+                <FootnoteRow key={footnote.id} footnote={footnote} handle={handle} />
               ))}
             </div>
           ) : (
@@ -69,12 +105,12 @@ export default async function AdminDashboard() {
 
         {unlisted.length > 0 && (
           <section>
-            <h2 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-4">
+            <h2 className="font-ui font-medium uppercase tracking-wide mb-4">
               Unlisted ({unlisted.length})
             </h2>
             <div className="space-y-2">
               {unlisted.map((footnote) => (
-                <FootnoteRow key={footnote.id} footnote={footnote} />
+                <FootnoteRow key={footnote.id} footnote={footnote} handle={handle} />
               ))}
             </div>
           </section>
@@ -94,15 +130,16 @@ interface FootnoteRowProps {
     updatedAt: Date;
     tags: { tag: { name: string } }[];
   };
+  handle: string;
 }
 
-function FootnoteRow({ footnote }: FootnoteRowProps) {
+function FootnoteRow({ footnote, handle }: FootnoteRowProps) {
   const title = footnote.title || footnote.body.slice(0, 50) + "…";
   const date = footnote.publishedAt || footnote.updatedAt;
 
   return (
     <Link
-      href={`/admin/edit/${footnote.id}`}
+      href={`/@${handle}/edit/${footnote.id}`}
       className="flex items-center justify-between py-3 px-4 -mx-4 rounded hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors"
     >
       <div className="flex items-center gap-3 min-w-0">
@@ -110,12 +147,12 @@ function FootnoteRow({ footnote }: FootnoteRowProps) {
           {title}
         </span>
         {footnote.tags.length > 0 && (
-          <span className="text-sm text-neutral-400 dark:text-neutral-500 hidden sm:inline">
+          <span className="font-ui hidden sm:inline">
             {footnote.tags.map((t) => `#${t.tag.name}`).join(" ")}
           </span>
         )}
       </div>
-      <time className="text-sm text-neutral-400 dark:text-neutral-500 shrink-0 ml-4">
+      <time className="font-ui shrink-0 ml-4">
         {formatDate(date)}
       </time>
     </Link>

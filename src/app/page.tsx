@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { getSession } from "@/lib/auth";
 import { FootnoteCard } from "@/components/FootnoteCard";
 import { FootnoteStatus } from "@prisma/client";
 
 export default async function HomePage() {
+  // Check if user is logged in
+  const session = await getSession();
+
   // Get demo author and their recent footnotes
   const author = await db.user.findFirst({
     select: {
@@ -49,7 +53,7 @@ export default async function HomePage() {
         </p>
         <p>
           <Link
-            href="/admin/login"
+            href={session ? `/@${session.user.handle}/write` : "/login"}
             className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           >
             Write a footnote →

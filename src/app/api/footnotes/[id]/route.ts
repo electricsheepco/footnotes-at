@@ -8,7 +8,7 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
-// PUT /api/admin/footnotes/[id] - Update a footnote
+// PUT /api/footnotes/[id] - Update a footnote
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await getSession();
@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-// DELETE /api/admin/footnotes/[id] - Delete a footnote
+// DELETE /api/footnotes/[id] - Delete a footnote
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await getSession();

@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 import { footnoteSchema } from "@/lib/validations";
 import { updateFootnoteTags } from "@/lib/tags";
 
-// POST /api/admin/footnotes - Create a new footnote
+// POST /api/footnotes - Create a new footnote
 export async function POST(request: NextRequest) {
   try {
     const session = await getSession();

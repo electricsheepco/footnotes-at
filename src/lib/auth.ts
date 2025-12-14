@@ -92,11 +92,14 @@ export async function getSession() {
 }
 
 // Require authentication - redirects to login if not authenticated
-export async function requireAuth() {
+export async function requireAuth(redirectPath?: string) {
   const session = await getSession();
 
   if (!session) {
-    redirect("/admin/login");
+    const loginUrl = redirectPath
+      ? `/login?next=${encodeURIComponent(redirectPath)}`
+      : "/login";
+    redirect(loginUrl);
   }
 
   return session;

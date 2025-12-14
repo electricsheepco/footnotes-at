@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +20,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -26,7 +29,9 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push("/admin");
+        // Redirect to next param or user's footnotes page
+        const redirectTo = next || `/@${data.handle}/footnotes`;
+        router.push(redirectTo);
         router.refresh();
       } else {
         setError(data.error || "Login failed");
@@ -43,7 +48,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <Link
           href="/"
-          className="text-sm text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          className="font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
         >
           ← footnotes.at
         </Link>
@@ -54,7 +59,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm text-neutral-600 dark:text-neutral-400 mb-1"
+              className="block font-ui mb-1"
             >
               Email
             </label>
@@ -74,7 +79,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm text-neutral-600 dark:text-neutral-400 mb-1"
+              className="block font-ui mb-1"
             >
               Password
             </label>
@@ -91,7 +96,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p className="font-ui text-red-600 dark:text-red-400">{error}</p>
           )}
 
           <button

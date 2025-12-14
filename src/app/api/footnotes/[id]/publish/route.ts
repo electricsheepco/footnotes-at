@@ -11,7 +11,7 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
-// POST /api/admin/footnotes/[id]/publish - Publish, unlist, or revert a footnote
+// POST /api/footnotes/[id]/publish - Publish, unlist, or revert a footnote
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await getSession();
@@ -89,7 +89,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         const excerpt = getExcerpt(footnote.body, 300);
 
         // Send emails sequentially (simple approach for MVP)
-        // Could be optimized with batch sending or background jobs later
         for (const subscriber of subscribers) {
           await sendFootnoteEmail(
             subscriber.email,

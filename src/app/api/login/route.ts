@@ -46,7 +46,11 @@ export async function POST(request: NextRequest) {
     // Create session (this also sets the cookie)
     await createSession(user.id);
 
-    return NextResponse.json({ success: true });
+    // Return success with handle for redirect
+    return NextResponse.json({
+      success: true,
+      handle: user.handle,
+    });
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
