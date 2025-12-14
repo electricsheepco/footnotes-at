@@ -80,3 +80,21 @@ h3, h4, h5, h6 {
 .prose a:hover {
   text-decoration-color: currentColor;
 }
+
+/* Quoted/referenced material: lighter and smaller */
+.prose blockquote {
+  font-size: 0.9375rem; /* 15px, ~88% of body */
+  color: #737373;
+  border-left: none;
+  padding-left: 0;
+  margin-left: 1.5rem;
+  font-style: normal;
+}
+
+.dark .prose blockquote {
+  color: #a3a3a3;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
