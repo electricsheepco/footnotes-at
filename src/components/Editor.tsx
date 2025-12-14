@@ -221,7 +221,7 @@ export function Editor({ mode, footnote, authorHandle }: EditorProps) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title (optional)"
-          className="w-full text-2xl font-medium bg-transparent border-0 border-b border-neutral-200 dark:border-neutral-800 focus:border-neutral-400 dark:focus:border-neutral-600 focus:outline-none pb-2 placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
+          className="w-full font-medium bg-transparent border-0 border-b border-neutral-200 dark:border-neutral-800 focus:border-neutral-400 dark:focus:border-neutral-600 focus:outline-none pb-2 placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
         />
       </div>
 

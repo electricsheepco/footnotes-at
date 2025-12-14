@@ -48,7 +48,7 @@ export default function LoginPage() {
           ← footnotes.at
         </Link>
 
-        <h1 className="text-2xl font-medium mt-6 mb-8">Sign in</h1>
+        <h1 className="font-medium mt-6 mb-8">Sign in</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

@@ -72,7 +72,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         >
           ← footnotes.at
         </Link>
-        <h1 className="text-2xl font-medium mt-6 mb-3">{author.displayName}</h1>
+        <h1 className="font-medium mt-6 mb-3">{author.displayName}</h1>
         {author.bio && (
           <div className="text-neutral-600 dark:text-neutral-400">
             <Markdown content={author.bio} />

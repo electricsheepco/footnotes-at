@@ -18,7 +18,7 @@ export default async function SubscribedPage({
       <div className="max-w-sm text-center">
         {error === "invalid" && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Invalid link</h1>
+            <h1 className="font-medium mb-4">Invalid link</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               This confirmation link is invalid or has expired.
             </p>
@@ -27,7 +27,7 @@ export default async function SubscribedPage({
 
         {error === "unknown" && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Something went wrong</h1>
+            <h1 className="font-medium mb-4">Something went wrong</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               We couldn&apos;t confirm your subscription. Please try again.
             </p>
@@ -36,7 +36,7 @@ export default async function SubscribedPage({
 
         {!error && already && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Already subscribed</h1>
+            <h1 className="font-medium mb-4">Already subscribed</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               You&apos;re already subscribed. No action needed.
             </p>
@@ -45,7 +45,7 @@ export default async function SubscribedPage({
 
         {!error && !already && author && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Subscribed</h1>
+            <h1 className="font-medium mb-4">Subscribed</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               You&apos;ll receive new footnotes by email.
             </p>

@@ -16,7 +16,7 @@ export function FootnoteCard({ footnote, authorHandle }: FootnoteCardProps) {
     <article className="py-8 border-b border-neutral-200 dark:border-neutral-800 last:border-0">
       <Link href={href} className="block group">
         {footnote.title && (
-          <h2 className="text-xl font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
+          <h2 className="font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
             {footnote.title}
           </h2>
         )}

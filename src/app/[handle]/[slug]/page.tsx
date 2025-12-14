@@ -84,7 +84,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
 
       <article>
         {footnote.title && (
-          <h1 className="text-3xl font-medium mb-4">{footnote.title}</h1>
+          <h1 className="font-medium mb-4">{footnote.title}</h1>
         )}
 
         <div className="flex items-center gap-4 mb-8 text-sm text-neutral-400 dark:text-neutral-500">

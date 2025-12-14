@@ -30,7 +30,7 @@ export default async function AdminDashboard() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex items-baseline justify-between mb-8">
-        <h1 className="text-2xl font-medium">Dashboard</h1>
+        <h1 className="font-medium">Dashboard</h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
           {subscriberCount} subscriber{subscriberCount !== 1 ? "s" : ""}
         </p>

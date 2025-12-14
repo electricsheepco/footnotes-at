@@ -17,7 +17,7 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <div className="max-w-sm text-center">
-        <h1 className="text-2xl font-medium mb-4">Something went wrong</h1>
+        <h1 className="font-medium mb-4">Something went wrong</h1>
         <p className="text-neutral-600 dark:text-neutral-400 mb-8">
           An unexpected error occurred. Please try again.
         </p>

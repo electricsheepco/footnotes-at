@@ -32,7 +32,7 @@ export default async function HomePage() {
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <header className="mb-12">
-        <h1 className="text-2xl font-medium mb-4">footnotes.at</h1>
+        <h1 className="font-medium mb-4">footnotes.at</h1>
         <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
           A quiet place for short writing. No likes, no followers, no
           algorithms. Just words that accumulate over time.

@@ -24,6 +24,25 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.65;
+}
+
+/* Headings: max 1.3× body size */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 1.375rem; /* ~22px, 1.29× body */
+}
+
+h2 {
+  font-size: 1.25rem; /* 20px, 1.18× body */
+}
+
+h3, h4, h5, h6 {
+  font-size: 1.0625rem; /* same as body */
 }
 
 /* UI elements: Inter for dates, tags, navigation, buttons */

@@ -17,7 +17,7 @@ export default async function UnsubscribedPage({
       <div className="max-w-sm text-center">
         {error === "invalid" && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Already unsubscribed</h1>
+            <h1 className="font-medium mb-4">Already unsubscribed</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               This link is no longer valid. You may have already unsubscribed.
             </p>
@@ -26,7 +26,7 @@ export default async function UnsubscribedPage({
 
         {error === "unknown" && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Something went wrong</h1>
+            <h1 className="font-medium mb-4">Something went wrong</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               We couldn&apos;t process your unsubscribe request. Please try
               again.
@@ -36,7 +36,7 @@ export default async function UnsubscribedPage({
 
         {!error && (
           <>
-            <h1 className="text-2xl font-medium mb-4">Unsubscribed</h1>
+            <h1 className="font-medium mb-4">Unsubscribed</h1>
             <p className="text-neutral-600 dark:text-neutral-400 mb-8">
               You&apos;ve been unsubscribed and won&apos;t receive any more
               emails.
