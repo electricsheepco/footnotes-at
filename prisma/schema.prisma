@@ -1,0 +1,140 @@
+// footnotes.at — Prisma Schema
+// Minimal data model for single-author microblogging + email subscriptions
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// USER (Author)
+// Single admin user for MVP. Stores credentials and public profile.
+// =============================================================================
+
+model User {
+  id           String   @id @default(cuid())
+  handle       String   @unique // URL namespace: /@handle
+  displayName  String
+  bio          String?  // Optional, rendered as markdown
+  email        String   @unique // For login
+  passwordHash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  footnotes   Footnote[]
+  subscribers Subscriber[]
+  sessions    Session[]
+}
+
+// =============================================================================
+// FOOTNOTE
+// A short piece of writing. Core content object.
+// =============================================================================
+
+model Footnote {
+  id     String         @id @default(cuid())
+  slug   String? // Generated on publish, null for drafts
+  title  String? // Optional
+  body   String // Markdown content
+  status FootnoteStatus @default(DRAFT)
+
+  publishedAt DateTime? // Set once on first publish
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  tags FootnoteTag[]
+
+  // Slug must be unique per author (not globally)
+  @@unique([authorId, slug])
+  // Index for listing published footnotes by date
+  @@index([authorId, status, publishedAt(sort: Desc)])
+}
+
+enum FootnoteStatus {
+  DRAFT
+  PUBLISHED
+  UNLISTED
+}
+
+// =============================================================================
+// TAG
+// Simple tag entity. Normalized to allow consistent naming and future features.
+// =============================================================================
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique // Lowercase, normalized
+  slug String @unique // URL-safe version
+
+  createdAt DateTime @default(now())
+
+  footnotes FootnoteTag[]
+}
+
+// =============================================================================
+// FOOTNOTETAG (Join Table)
+// Many-to-many relationship between Footnote and Tag.
+// =============================================================================
+
+model FootnoteTag {
+  footnote   Footnote @relation(fields: [footnoteId], references: [id], onDelete: Cascade)
+  footnoteId String
+
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId String
+
+  createdAt DateTime @default(now())
+
+  @@id([footnoteId, tagId])
+  @@index([tagId]) // For querying footnotes by tag
+}
+
+// =============================================================================
+// SUBSCRIBER
+// Email subscription to an author. Supports double opt-in.
+// =============================================================================
+
+model Subscriber {
+  id    String @id @default(cuid())
+  email String
+
+  confirmToken     String    @unique // For double opt-in confirmation link
+  confirmedAt      DateTime? // Null until confirmed
+  unsubscribeToken String    @unique // For one-click unsubscribe
+
+  createdAt DateTime @default(now())
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  // Email unique per author (same email can subscribe to multiple authors post-MVP)
+  @@unique([authorId, email])
+  @@index([authorId, confirmedAt]) // For querying confirmed subscribers
+}
+
+// =============================================================================
+// SESSION
+// Simple session management for admin auth. No JWT complexity.
+// =============================================================================
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique // Random token stored in httpOnly cookie
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([token]) // For session lookup
+  @@index([expiresAt]) // For cleanup of expired sessions
+}
