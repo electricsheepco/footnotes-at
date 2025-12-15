@@ -58,10 +58,10 @@ export default async function HomePage() {
         </div>
       </header>
 
-      <section className="font-ui mb-16">
+      <section className="mb-16 pt-8 border-t border-neutral-200 dark:border-neutral-800">
         <Link
           href={session ? `/@${session.user.handle}/write` : "/login"}
-          className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          className="inline-block px-6 py-3 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors"
         >
           Write a footnote →
         </Link>
