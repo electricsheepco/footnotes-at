@@ -33,29 +33,38 @@ export default async function HomePage() {
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <header className="mb-12">
-        <h1 className="font-medium mb-4">footnotes.at</h1>
-        <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          A quiet place for short writing. No likes, no followers, no
-          algorithms. Just words that accumulate over time.
+        <h1 className="font-medium mb-4">A quiet place for short writing.</h1>
+        <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+          No likes. No followers. No algorithms.
+          <br />
+          Just words that accumulate over time.
         </p>
+        <div className="space-y-4 text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p>
+            Footnotes is a shared space where anyone can publish small, self-contained pieces of writing.
+          </p>
+          <p>
+            You can also add footnotes—your own or others'—to your personal collection.
+            <br />
+            Not to perform. Not to rank.
+            <br />
+            Just to keep the things that stayed with you.
+          </p>
+          <p>
+            Everything here is public.
+            <br />
+            The writing flows slowly, newest first.
+          </p>
+        </div>
       </header>
 
-      <section className="font-ui mb-16 leading-relaxed space-y-2">
-        <p>
-          This is a shared space where anyone can publish short pieces called footnotes.
-        </p>
-        <p>
-          Everything here is public. The feed below shows the most recent
-          writing from all authors, newest first.
-        </p>
-        <p>
-          <Link
-            href={session ? `/@${session.user.handle}/write` : "/login"}
-            className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            Write a footnote →
-          </Link>
-        </p>
+      <section className="font-ui mb-16">
+        <Link
+          href={session ? `/@${session.user.handle}/write` : "/login"}
+          className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+        >
+          Write a footnote →
+        </Link>
       </section>
 
       {hasFootnotes && (
