@@ -8,30 +8,27 @@ export default async function HomePage() {
   // Check if user is logged in
   const session = await getSession();
 
-  // Get demo author and their recent footnotes
-  const author = await db.user.findFirst({
-    select: {
-      id: true,
-      handle: true,
-      displayName: true,
+  // Get recent footnotes from ALL authors
+  const footnotes = await db.footnote.findMany({
+    where: {
+      status: FootnoteStatus.PUBLISHED,
     },
+    include: {
+      author: {
+        select: {
+          handle: true,
+          displayName: true,
+        },
+      },
+      tags: {
+        include: { tag: true },
+      },
+    },
+    orderBy: { publishedAt: "desc" },
+    take: 10,
   });
 
-  const footnotes = author
-    ? await db.footnote.findMany({
-        where: {
-          authorId: author.id,
-          status: FootnoteStatus.PUBLISHED,
-        },
-        include: {
-          tags: {
-            include: { tag: true },
-          },
-        },
-        orderBy: { publishedAt: "desc" },
-        take: 3,
-      })
-    : [];
+  const hasFootnotes = footnotes.length > 0;
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
@@ -43,7 +40,7 @@ export default async function HomePage() {
         </p>
       </header>
 
-      <section className="font-ui mb-16 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed space-y-2">
+      <section className="font-ui mb-16 leading-relaxed space-y-2">
         <p>
           This is a shared space where anyone can publish short pieces called footnotes.
         </p>
@@ -61,15 +58,15 @@ export default async function HomePage() {
         </p>
       </section>
 
-      {author && footnotes.length > 0 && (
+      {hasFootnotes && (
         <section>
           <div className="flex items-baseline justify-between mb-6">
-            <h2 className="font-ui text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+            <h2 className="font-ui font-medium uppercase tracking-wide">
               Recent footnotes
             </h2>
             <Link
-              href={`/@${author.handle}`}
-              className="font-ui text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              href="/all"
+              className="font-ui hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
             >
               View all →
             </Link>
@@ -80,34 +77,28 @@ export default async function HomePage() {
               <FootnoteCard
                 key={footnote.id}
                 footnote={footnote}
-                authorHandle={author.handle}
+                authorHandle={footnote.author.handle}
+                showAuthor
               />
             ))}
           </div>
         </section>
       )}
 
-      {author && footnotes.length === 0 && (
-        <section>
-          <p className="text-neutral-500 dark:text-neutral-400 mb-4">
-            No footnotes published yet.
-          </p>
-          <Link
-            href={`/@${author.handle}`}
-            className="font-ui text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            View @{author.handle} →
-          </Link>
-        </section>
-      )}
-
-      {!author && (
+      {!hasFootnotes && (
         <section className="p-6 border border-dashed border-neutral-300 dark:border-neutral-700 rounded-lg">
           <p className="text-neutral-600 dark:text-neutral-400 mb-2">
-            No authors yet.
+            No footnotes yet.
           </p>
-          <p className="text-sm text-neutral-500 dark:text-neutral-500">
-            Run <code className="font-mono bg-neutral-100 dark:bg-neutral-800 px-1 rounded">pnpm db:seed</code> to create a demo author.
+          <p className="font-ui">
+            Be the first to{" "}
+            <Link
+              href={session ? `/@${session.user.handle}/write` : "/login"}
+              className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline"
+            >
+              write something
+            </Link>
+            .
           </p>
         </section>
       )}

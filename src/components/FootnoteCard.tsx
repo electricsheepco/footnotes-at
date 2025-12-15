@@ -6,9 +6,10 @@ import type { FootnoteWithTags } from "@/types";
 interface FootnoteCardProps {
   footnote: FootnoteWithTags;
   authorHandle: string;
+  showAuthor?: boolean;
 }
 
-export function FootnoteCard({ footnote, authorHandle }: FootnoteCardProps) {
+export function FootnoteCard({ footnote, authorHandle, showAuthor }: FootnoteCardProps) {
   const href = `/@${authorHandle}/${footnote.slug}`;
   const excerpt = getExcerpt(footnote.body, 200);
 
@@ -26,9 +27,17 @@ export function FootnoteCard({ footnote, authorHandle }: FootnoteCardProps) {
       </Link>
 
       <div className="mt-4 flex items-center gap-4">
+        {showAuthor && (
+          <Link
+            href={`/@${authorHandle}`}
+            className="font-ui hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          >
+            @{authorHandle}
+          </Link>
+        )}
         <time
           dateTime={footnote.publishedAt?.toISOString()}
-          className="font-ui text-sm text-neutral-400 dark:text-neutral-500"
+          className="font-ui"
         >
           {footnote.publishedAt && formatDate(footnote.publishedAt)}
         </time>
