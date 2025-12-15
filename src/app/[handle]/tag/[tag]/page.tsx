@@ -73,12 +73,12 @@ export default async function TagPage({ params }: TagPageProps) {
       <header className="mb-12">
         <Link
           href={`/@${author.handle}`}
-          className="text-sm text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          className="font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
         >
           ← {author.displayName}
         </Link>
         <h1 className="font-medium mt-6">#{tag.name}</h1>
-        <p className="text-neutral-500 dark:text-neutral-400 mt-2">
+        <p className="font-ui text-neutral-500 dark:text-neutral-400 mt-2">
           {footnotes.length} {footnotes.length === 1 ? "footnote" : "footnotes"}
         </p>
       </header>
