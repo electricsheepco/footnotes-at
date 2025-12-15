@@ -18,7 +18,10 @@ export function DogEarButton({
   const [loading, setLoading] = useState(false);
   const [showLabel, setShowLabel] = useState(false);
 
-  async function handleClick() {
+  async function handleClick(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (loading) return;
     setLoading(true);
 
@@ -28,6 +31,8 @@ export function DogEarButton({
       } else {
         await onDogEar(footnoteId);
       }
+    } catch (error) {
+      console.error("Dog-ear error:", error);
     } finally {
       setLoading(false);
     }
@@ -41,49 +46,75 @@ export function DogEarButton({
       onFocus={() => setShowLabel(true)}
       onBlur={() => setShowLabel(false)}
       disabled={loading}
-      className="relative group flex items-center gap-1 font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 transition-colors disabled:opacity-50"
+      className="flex items-center gap-1.5 font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 transition-colors disabled:opacity-50"
       aria-label={isDogEared ? "Remove dog-ear" : "Dog-ear this footnote"}
     >
-      {/* Folded corner icon */}
+      {/* Folded corner icon - like a page corner being folded */}
       <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
         fill="none"
         className="transition-colors"
       >
         {isDogEared ? (
-          // Folded corner (dog-eared state)
+          // Folded corner (dog-eared state) - triangle fold visible
           <>
+            {/* Page background */}
             <path
-              d="M3 2h7l4 4v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"
+              d="M2 1h14v16H2V1z"
               fill="currentColor"
-              fillOpacity="0.1"
-              stroke="currentColor"
-              strokeWidth="1.5"
+              fillOpacity="0.05"
             />
+            {/* Page border */}
             <path
-              d="M10 2v3a1 1 0 0 0 1 1h3"
+              d="M2 1h14v16H2V1z"
               stroke="currentColor"
               strokeWidth="1.5"
+              fill="none"
+            />
+            {/* Folded corner - filled triangle */}
+            <path
+              d="M16 1v5h-5l5-5z"
               fill="currentColor"
-              fillOpacity="0.3"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinejoin="round"
+            />
+            {/* Fold crease line */}
+            <path
+              d="M11 6L16 1"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeOpacity="0.5"
             />
           </>
         ) : (
-          // Unfolded corner (default state)
-          <path
-            d="M3 2h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="none"
-          />
+          // Flat corner (default state) - just the corner outline
+          <>
+            {/* Page border */}
+            <path
+              d="M2 1h14v16H2V1z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              fill="none"
+            />
+            {/* Corner hint - subtle dashed line */}
+            <path
+              d="M11 1v5h5"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeOpacity="0.3"
+              strokeDasharray="2 2"
+              fill="none"
+            />
+          </>
         )}
       </svg>
 
       {/* Label on hover/focus */}
       <span
-        className={`text-xs transition-opacity ${
+        className={`text-xs whitespace-nowrap transition-opacity duration-150 ${
           showLabel ? "opacity-100" : "opacity-0"
         }`}
       >
