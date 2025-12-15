@@ -61,15 +61,10 @@ h3, h4, h5, h6 {
 }
 
 /* UI elements: JetBrains Mono for dates, tags, navigation */
-/* Small size, low contrast - secondary to main text */
+/* Small size - color inherited from context */
 .font-ui {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.75rem; /* 12px */
-  color: #a3a3a3;
-}
-
-.dark .font-ui {
-  color: #737373;
 }
 
 /* Typography refinements for prose */
