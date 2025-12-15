@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { getSession } from "@/lib/auth";
 import { Markdown } from "@/components/Markdown";
 import { TagList } from "@/components/TagList";
+import { DogEarWrapper } from "@/components/DogEarWrapper";
 import { formatDate } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
 
@@ -46,6 +48,8 @@ export async function generateMetadata({ params }: FootnotePageProps) {
 export default async function FootnotePage({ params }: FootnotePageProps) {
   const { handle, slug } = await params;
 
+  const session = await getSession();
+
   const author = await db.user.findUnique({
     where: { handle },
     select: { id: true, handle: true, displayName: true },
@@ -71,6 +75,20 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
     notFound();
   }
 
+  // Get dog-ear status for current user
+  let dogEar = null;
+  if (session) {
+    dogEar = await db.dogEar.findUnique({
+      where: {
+        userId_footnoteId: {
+          userId: session.user.id,
+          footnoteId: footnote.id,
+        },
+      },
+      select: { selectedText: true },
+    });
+  }
+
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <header className="mb-8">
@@ -82,24 +100,28 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
         </Link>
       </header>
 
-      <article>
-        {footnote.title && (
-          <h1 className="mb-4">{footnote.title}</h1>
-        )}
+      <DogEarWrapper
+        footnoteId={footnote.id}
+        initialDogEar={dogEar}
+        isLoggedIn={!!session}
+      >
+        <article>
+          {footnote.title && <h1 className="mb-4">{footnote.title}</h1>}
 
-        <div className="flex items-center gap-4 mb-8 font-ui">
-          {footnote.publishedAt && (
-            <time dateTime={footnote.publishedAt.toISOString()}>
-              {formatDate(footnote.publishedAt)}
-            </time>
-          )}
-          <TagList tags={footnote.tags} authorHandle={author.handle} />
-        </div>
+          <div className="flex items-center gap-4 mb-8 font-ui">
+            {footnote.publishedAt && (
+              <time dateTime={footnote.publishedAt.toISOString()}>
+                {formatDate(footnote.publishedAt)}
+              </time>
+            )}
+            <TagList tags={footnote.tags} authorHandle={author.handle} />
+          </div>
 
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
-          <Markdown content={footnote.body} />
-        </div>
-      </article>
+          <div className="prose prose-neutral dark:prose-invert max-w-none">
+            <Markdown content={footnote.body} />
+          </div>
+        </article>
+      </DogEarWrapper>
 
       <footer className="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800">
         <Link

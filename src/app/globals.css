@@ -173,3 +173,16 @@ h3, h4, h5, h6 {
 .prose dfn {
   font-style: italic;
 }
+
+/* =============================================================================
+ * Dog-ear: Private underline styling
+ * "This stayed with me." - A private trace, not performative.
+ * ============================================================================= */
+
+.dogear-underline {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  /* No background, no animation - just a subtle mark */
+}
