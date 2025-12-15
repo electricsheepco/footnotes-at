@@ -10,7 +10,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-serif: var(--font-serif);
-  --font-ui: var(--font-sans);
+  --font-ui: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,46 +21,50 @@
 }
 
 /*
- * Body font: change --font-serif in layout.tsx to swap fonts.
- * Layout uses rem/em units - no breakage on font change.
+ * Body font: Gentium Book Plus
+ * Title: 32px (2rem)
+ * Content: 21px (1.3125rem)
  */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-  font-size: 1.0625rem; /* 17px */
+  font-size: 1.3125rem; /* 21px - footnote content size */
   line-height: 1.65;
 }
 
-/* Ensure minimum 16px on mobile */
+/* Ensure minimum 18px on mobile */
 @media (max-width: 640px) {
   body {
-    font-size: 1rem; /* 16px minimum on mobile */
+    font-size: 1.125rem; /* 18px minimum on mobile */
   }
 }
 
-/* Headings: max 1.3× body size */
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.3;
 }
 
 h1 {
-  font-size: 1.375rem; /* ~22px, 1.29× body */
+  font-size: 2rem; /* 32px */
+  font-weight: 400;
 }
 
 h2 {
-  font-size: 1.25rem; /* 20px, 1.18× body */
+  font-size: 1.5rem; /* 24px */
+  font-weight: 400;
 }
 
 h3, h4, h5, h6 {
-  font-size: 1.0625rem; /* same as body */
+  font-size: 1.3125rem; /* same as body */
+  font-weight: 400;
 }
 
-/* UI elements: Inter for dates, tags, navigation, buttons */
+/* UI elements: JetBrains Mono for dates, tags, navigation */
 /* Small size, low contrast - secondary to main text */
 .font-ui {
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  font-size: 0.8125rem; /* 13px */
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem; /* 12px */
   color: #a3a3a3;
 }
 

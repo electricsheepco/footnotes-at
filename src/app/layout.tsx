@@ -1,33 +1,20 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Inter } from "next/font/google";
+import { Gentium_Book_Plus, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const etBook = localFont({
-  src: [
-    {
-      path: "../../public/fonts/et-book-roman.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/et-book-italic.woff2",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/et-book-bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const gentiumBookPlus = Gentium_Book_Plus({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   variable: "--font-serif",
+  subsets: ["latin"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-sans",
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "500"],
+  variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://footnotes.at";
@@ -69,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${etBook.variable} ${inter.variable} antialiased min-h-screen`}
+        className={`${gentiumBookPlus.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
         {children}
       </body>
