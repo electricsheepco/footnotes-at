@@ -33,6 +33,7 @@ export default async function HomePage() {
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <header className="mb-12">
+        <p className="font-ui text-neutral-400 dark:text-neutral-500 mb-6">footnotes.at</p>
         <h1 className="font-medium mb-4">A quiet place for short writing.</h1>
         <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
           No likes. No followers. No algorithms.
