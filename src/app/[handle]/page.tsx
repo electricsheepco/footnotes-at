@@ -68,7 +68,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       <header className="mb-12">
         <Link
           href="/"
-          className="text-sm text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          className="font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
         >
           ← footnotes.at
         </Link>
@@ -81,12 +81,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       </header>
 
       {allTags.size > 0 && (
-        <nav className="mb-8 flex flex-wrap gap-3">
+        <nav className="mb-8 flex flex-wrap gap-3 font-ui">
           {Array.from(allTags.values()).map((tag) => (
             <Link
               key={tag.slug}
               href={`/@${author.handle}/tag/${tag.slug}`}
-              className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
             >
               #{tag.name}
             </Link>
@@ -113,10 +113,10 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       )}
 
       <footer className="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-        <h2 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-4">
+        <h2 className="font-ui font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-4">
           Subscribe
         </h2>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+        <p className="font-ui text-neutral-500 dark:text-neutral-400 mb-4">
           Get new footnotes delivered to your inbox.
         </p>
         <SubscribeForm authorId={author.id} />
