@@ -49,66 +49,28 @@ export function DogEarButton({
       className="flex items-center gap-1.5 font-ui text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 transition-colors disabled:opacity-50"
       aria-label={isDogEared ? "Remove dog-ear" : "Dog-ear this footnote"}
     >
-      {/* Folded corner icon - like a page corner being folded */}
+      {/* Folded corner icon */}
       <svg
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
         fill="none"
         className="transition-colors"
       >
         {isDogEared ? (
-          // Folded corner (dog-eared state) - triangle fold visible
-          <>
-            {/* Page background */}
-            <path
-              d="M2 1h14v16H2V1z"
-              fill="currentColor"
-              fillOpacity="0.05"
-            />
-            {/* Page border */}
-            <path
-              d="M2 1h14v16H2V1z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              fill="none"
-            />
-            {/* Folded corner - filled triangle */}
-            <path
-              d="M16 1v5h-5l5-5z"
-              fill="currentColor"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeLinejoin="round"
-            />
-            {/* Fold crease line */}
-            <path
-              d="M11 6L16 1"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeOpacity="0.5"
-            />
-          </>
+          // Filled folded corner (dog-eared state)
+          <path
+            d="M0 0h10l6 6v10H0V0z"
+            fill="currentColor"
+          />
         ) : (
-          // Flat corner (default state) - just the corner outline
-          <>
-            {/* Page border */}
-            <path
-              d="M2 1h14v16H2V1z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              fill="none"
-            />
-            {/* Corner hint - subtle dashed line */}
-            <path
-              d="M11 1v5h5"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeOpacity="0.3"
-              strokeDasharray="2 2"
-              fill="none"
-            />
-          </>
+          // Outline folded corner (default state)
+          <path
+            d="M1 1h8l5 5v8H1V1z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            fill="none"
+          />
         )}
       </svg>
 
