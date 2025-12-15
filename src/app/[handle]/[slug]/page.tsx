@@ -76,7 +76,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
       <header className="mb-8">
         <Link
           href={`/@${author.handle}`}
-          className="text-sm text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          className="font-ui hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
         >
           ← {author.displayName}
         </Link>
@@ -84,10 +84,10 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
 
       <article>
         {footnote.title && (
-          <h1 className="font-medium mb-4">{footnote.title}</h1>
+          <h1 className="mb-4">{footnote.title}</h1>
         )}
 
-        <div className="flex items-center gap-4 mb-8 text-sm text-neutral-400 dark:text-neutral-500">
+        <div className="flex items-center gap-4 mb-8 font-ui">
           {footnote.publishedAt && (
             <time dateTime={footnote.publishedAt.toISOString()}>
               {formatDate(footnote.publishedAt)}
@@ -96,7 +96,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
           <TagList tags={footnote.tags} authorHandle={author.handle} />
         </div>
 
-        <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none">
+        <div className="prose prose-neutral dark:prose-invert max-w-none">
           <Markdown content={footnote.body} />
         </div>
       </article>
@@ -104,7 +104,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
       <footer className="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800">
         <Link
           href={`/@${author.handle}`}
-          className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          className="font-ui hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
         >
           More from {author.displayName} →
         </Link>

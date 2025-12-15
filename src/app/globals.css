@@ -77,12 +77,41 @@ h3, h4, h5, h6 {
 /* Using rem instead of ch for font-swap stability */
 .prose {
   max-width: 38rem; /* ~608px, stable across font changes */
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: 1.3125rem; /* 21px - matches body */
+  line-height: 1.65;
   --tw-prose-body: #404040;
   --tw-prose-headings: #171717;
   --tw-prose-links: #171717;
   --tw-prose-bold: #171717;
   --tw-prose-quotes: #525252;
   --tw-prose-code: #171717;
+}
+
+/* Prose headings inherit body font */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+
+.prose h1 {
+  font-size: 2rem; /* 32px */
+}
+
+.prose h2 {
+  font-size: 1.5rem; /* 24px */
+}
+
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-size: 1.3125rem; /* same as body */
 }
 
 .dark .prose {
