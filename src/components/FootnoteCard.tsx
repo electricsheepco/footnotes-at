@@ -1,15 +1,24 @@
 import Link from "next/link";
 import { formatDate, getExcerpt } from "@/lib/formatting";
 import { TagList } from "./TagList";
+import { FootnoteCardDogEar } from "./FootnoteCardDogEar";
 import type { FootnoteWithTags } from "@/types";
 
 interface FootnoteCardProps {
   footnote: FootnoteWithTags;
   authorHandle: string;
   showAuthor?: boolean;
+  isLoggedIn?: boolean;
+  initialDogEared?: boolean;
 }
 
-export function FootnoteCard({ footnote, authorHandle, showAuthor }: FootnoteCardProps) {
+export function FootnoteCard({
+  footnote,
+  authorHandle,
+  showAuthor,
+  isLoggedIn = false,
+  initialDogEared = false,
+}: FootnoteCardProps) {
   const href = `/@${authorHandle}/${footnote.slug}`;
   const excerpt = getExcerpt(footnote.body, 200);
 
@@ -26,22 +35,29 @@ export function FootnoteCard({ footnote, authorHandle, showAuthor }: FootnoteCar
         </p>
       </Link>
 
-      <div className="mt-4 flex items-center gap-4">
-        {showAuthor && (
-          <Link
-            href={`/@${authorHandle}`}
-            className="font-ui hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {showAuthor && (
+            <Link
+              href={`/@${authorHandle}`}
+              className="font-ui hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            >
+              @{authorHandle}
+            </Link>
+          )}
+          <time
+            dateTime={footnote.publishedAt?.toISOString()}
+            className="font-ui"
           >
-            @{authorHandle}
-          </Link>
-        )}
-        <time
-          dateTime={footnote.publishedAt?.toISOString()}
-          className="font-ui"
-        >
-          {footnote.publishedAt && formatDate(footnote.publishedAt)}
-        </time>
-        <TagList tags={footnote.tags} authorHandle={authorHandle} />
+            {footnote.publishedAt && formatDate(footnote.publishedAt)}
+          </time>
+          <TagList tags={footnote.tags} authorHandle={authorHandle} />
+        </div>
+        <FootnoteCardDogEar
+          footnoteId={footnote.id}
+          isLoggedIn={isLoggedIn}
+          initialDogEared={initialDogEared}
+        />
       </div>
     </article>
   );

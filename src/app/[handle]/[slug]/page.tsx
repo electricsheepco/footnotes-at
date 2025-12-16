@@ -100,28 +100,32 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
         </Link>
       </header>
 
-      <DogEarWrapper
-        footnoteId={footnote.id}
-        initialDogEar={dogEar}
-        isLoggedIn={!!session}
-      >
-        <article>
-          {footnote.title && <h1 className="mb-4">{footnote.title}</h1>}
+      <article>
+        {footnote.title && <h1 className="mb-4">{footnote.title}</h1>}
 
-          <div className="flex items-center gap-4 mb-8 font-ui">
-            {footnote.publishedAt && (
-              <time dateTime={footnote.publishedAt.toISOString()}>
-                {formatDate(footnote.publishedAt)}
-              </time>
-            )}
-            <TagList tags={footnote.tags} authorHandle={author.handle} />
-          </div>
-
+        <DogEarWrapper
+          footnoteId={footnote.id}
+          initialDogEar={dogEar}
+          isLoggedIn={!!session}
+          renderButton={(button) => (
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4 font-ui">
+                {footnote.publishedAt && (
+                  <time dateTime={footnote.publishedAt.toISOString()}>
+                    {formatDate(footnote.publishedAt)}
+                  </time>
+                )}
+                <TagList tags={footnote.tags} authorHandle={author.handle} />
+              </div>
+              {button}
+            </div>
+          )}
+        >
           <div className="prose prose-neutral dark:prose-invert max-w-none">
             <Markdown content={footnote.body} />
           </div>
-        </article>
-      </DogEarWrapper>
+        </DogEarWrapper>
+      </article>
 
       <footer className="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-800">
         <Link

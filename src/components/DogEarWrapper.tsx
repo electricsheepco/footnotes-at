@@ -10,6 +10,7 @@ interface DogEarWrapperProps {
   initialDogEar?: { selectedText: string | null } | null;
   isLoggedIn: boolean;
   children: React.ReactNode;
+  renderButton?: (button: React.ReactNode) => React.ReactNode;
 }
 
 export function DogEarWrapper({
@@ -17,6 +18,7 @@ export function DogEarWrapper({
   initialDogEar,
   isLoggedIn,
   children,
+  renderButton,
 }: DogEarWrapperProps) {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -30,7 +32,6 @@ export function DogEarWrapper({
   }, [initialDogEar]);
 
   const redirectToLogin = useCallback(() => {
-    // Redirect to login with current page as the return destination
     const currentPath = window.location.pathname;
     router.push(`/login?next=${encodeURIComponent(currentPath)}`);
   }, [router]);
@@ -84,32 +85,33 @@ export function DogEarWrapper({
     await handleDogEar();
   }, [handleDogEar]);
 
+  const dogEarButton = (
+    <DogEarButton
+      footnoteId={footnoteId}
+      isDogEared={isDogEared}
+      onDogEar={handleDogEarWithoutSelection}
+      onUndogEar={handleUndogEar}
+    />
+  );
+
   return (
-    <div className="relative">
-      {/* Dog-ear button in top-right corner - always visible */}
-      <div className="absolute top-0 right-0">
-        <DogEarButton
-          footnoteId={footnoteId}
-          isDogEared={isDogEared}
-          onDogEar={handleDogEarWithoutSelection}
-          onUndogEar={handleUndogEar}
-        />
-      </div>
+    <>
+      {/* Render button via render prop if provided */}
+      {renderButton && renderButton(dogEarButton)}
 
       {/* Content with selection handling and underline */}
       <div ref={contentRef} className="relative">
-        {/* Render children with underline applied if there's selected text */}
         <DogEarContent selectedText={dogEar?.selectedText || null}>
           {children}
         </DogEarContent>
 
-        {/* Text selection popover - always available, will redirect if not logged in */}
+        {/* Text selection popover */}
         <TextSelectionPopover
           containerRef={contentRef}
           onDogEar={handleDogEarWithSelection}
         />
       </div>
-    </div>
+    </>
   );
 }
 

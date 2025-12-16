@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { getSession } from "@/lib/auth";
 import { FootnoteCard } from "@/components/FootnoteCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
 import { Markdown } from "@/components/Markdown";
@@ -28,6 +29,8 @@ export async function generateMetadata({ params }: AuthorPageProps) {
 export default async function AuthorPage({ params }: AuthorPageProps) {
   const { handle } = await params;
 
+  const session = await getSession();
+
   const author = await db.user.findUnique({
     where: { handle },
     select: {
@@ -54,6 +57,19 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     },
     orderBy: { publishedAt: "desc" },
   });
+
+  // Get dog-ear status for logged-in users
+  let dogEaredFootnoteIds: Set<string> = new Set();
+  if (session) {
+    const dogEars = await db.dogEar.findMany({
+      where: {
+        userId: session.user.id,
+        footnoteId: { in: footnotes.map((f) => f.id) },
+      },
+      select: { footnoteId: true },
+    });
+    dogEaredFootnoteIds = new Set(dogEars.map((d) => d.footnoteId));
+  }
 
   // Get unique tags from all footnotes
   const allTags = new Map<string, { name: string; slug: string }>();
@@ -102,6 +118,8 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                 key={footnote.id}
                 footnote={footnote}
                 authorHandle={author.handle}
+                isLoggedIn={!!session}
+                initialDogEared={dogEaredFootnoteIds.has(footnote.id)}
               />
             ))}
           </div>

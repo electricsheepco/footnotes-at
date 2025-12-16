@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { getSession } from "@/lib/auth";
 import { FootnoteCard } from "@/components/FootnoteCard";
 import { FootnoteStatus } from "@prisma/client";
 
@@ -33,6 +34,8 @@ export async function generateMetadata({ params }: TagPageProps) {
 
 export default async function TagPage({ params }: TagPageProps) {
   const { handle, tag: tagSlug } = await params;
+
+  const session = await getSession();
 
   const author = await db.user.findUnique({
     where: { handle },
@@ -68,6 +71,19 @@ export default async function TagPage({ params }: TagPageProps) {
     orderBy: { publishedAt: "desc" },
   });
 
+  // Get dog-ear status for logged-in users
+  let dogEaredFootnoteIds: Set<string> = new Set();
+  if (session) {
+    const dogEars = await db.dogEar.findMany({
+      where: {
+        userId: session.user.id,
+        footnoteId: { in: footnotes.map((f) => f.id) },
+      },
+      select: { footnoteId: true },
+    });
+    dogEaredFootnoteIds = new Set(dogEars.map((d) => d.footnoteId));
+  }
+
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <header className="mb-12">
@@ -91,6 +107,8 @@ export default async function TagPage({ params }: TagPageProps) {
                 key={footnote.id}
                 footnote={footnote}
                 authorHandle={author.handle}
+                isLoggedIn={!!session}
+                initialDogEared={dogEaredFootnoteIds.has(footnote.id)}
               />
             ))}
           </div>

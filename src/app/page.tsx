@@ -28,6 +28,19 @@ export default async function HomePage() {
     take: 20,
   });
 
+  // Get dog-ear status for logged-in users
+  let dogEaredFootnoteIds: Set<string> = new Set();
+  if (session) {
+    const dogEars = await db.dogEar.findMany({
+      where: {
+        userId: session.user.id,
+        footnoteId: { in: footnotes.map((f) => f.id) },
+      },
+      select: { footnoteId: true },
+    });
+    dogEaredFootnoteIds = new Set(dogEars.map((d) => d.footnoteId));
+  }
+
   const hasFootnotes = footnotes.length > 0;
 
   return (
@@ -102,6 +115,8 @@ export default async function HomePage() {
                     footnote={footnote}
                     authorHandle={footnote.author.handle}
                     showAuthor
+                    isLoggedIn={!!session}
+                    initialDogEared={dogEaredFootnoteIds.has(footnote.id)}
                   />
                 ))}
               </div>
