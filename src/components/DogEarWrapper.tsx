@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { DogEarButton } from "./DogEarButton";
 import { TextSelectionPopover } from "./TextSelectionPopover";
 
@@ -17,6 +18,7 @@ export function DogEarWrapper({
   isLoggedIn,
   children,
 }: DogEarWrapperProps) {
+  const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [dogEar, setDogEar] = useState(initialDogEar);
   const [isDogEared, setIsDogEared] = useState(!!initialDogEar);
@@ -27,8 +29,19 @@ export function DogEarWrapper({
     setIsDogEared(!!initialDogEar);
   }, [initialDogEar]);
 
+  const redirectToLogin = useCallback(() => {
+    // Redirect to login with current page as the return destination
+    const currentPath = window.location.pathname;
+    router.push(`/login?next=${encodeURIComponent(currentPath)}`);
+  }, [router]);
+
   const handleDogEar = useCallback(
     async (selectedText?: string) => {
+      if (!isLoggedIn) {
+        redirectToLogin();
+        return;
+      }
+
       const res = await fetch("/api/dogear", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,10 +54,15 @@ export function DogEarWrapper({
         setIsDogEared(true);
       }
     },
-    [footnoteId]
+    [footnoteId, isLoggedIn, redirectToLogin]
   );
 
   const handleUndogEar = useCallback(async () => {
+    if (!isLoggedIn) {
+      redirectToLogin();
+      return;
+    }
+
     const res = await fetch(`/api/dogear?footnoteId=${footnoteId}`, {
       method: "DELETE",
     });
@@ -53,7 +71,7 @@ export function DogEarWrapper({
       setDogEar(null);
       setIsDogEared(false);
     }
-  }, [footnoteId]);
+  }, [footnoteId, isLoggedIn, redirectToLogin]);
 
   const handleDogEarWithSelection = useCallback(
     async (selectedText: string) => {
@@ -68,17 +86,15 @@ export function DogEarWrapper({
 
   return (
     <div className="relative">
-      {/* Dog-ear button in top-right corner */}
-      {isLoggedIn && (
-        <div className="absolute top-0 right-0">
-          <DogEarButton
-            footnoteId={footnoteId}
-            isDogEared={isDogEared}
-            onDogEar={handleDogEarWithoutSelection}
-            onUndogEar={handleUndogEar}
-          />
-        </div>
-      )}
+      {/* Dog-ear button in top-right corner - always visible */}
+      <div className="absolute top-0 right-0">
+        <DogEarButton
+          footnoteId={footnoteId}
+          isDogEared={isDogEared}
+          onDogEar={handleDogEarWithoutSelection}
+          onUndogEar={handleUndogEar}
+        />
+      </div>
 
       {/* Content with selection handling and underline */}
       <div ref={contentRef} className="relative">
@@ -87,13 +103,11 @@ export function DogEarWrapper({
           {children}
         </DogEarContent>
 
-        {/* Text selection popover */}
-        {isLoggedIn && (
-          <TextSelectionPopover
-            containerRef={contentRef}
-            onDogEar={handleDogEarWithSelection}
-          />
-        )}
+        {/* Text selection popover - always available, will redirect if not logged in */}
+        <TextSelectionPopover
+          containerRef={contentRef}
+          onDogEar={handleDogEarWithSelection}
+        />
       </div>
     </div>
   );
