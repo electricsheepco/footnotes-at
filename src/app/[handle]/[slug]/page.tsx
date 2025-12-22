@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Script from "next/script";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { Markdown } from "@/components/Markdown";
 import { TagList } from "@/components/TagList";
 import { DogEarWrapper } from "@/components/DogEarWrapper";
-import { formatDate } from "@/lib/formatting";
+import { formatDate, getFirstLine } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
 
 interface FootnotePageProps {
@@ -89,18 +90,48 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
     });
   }
 
-  return (
-    <main className="max-w-2xl mx-auto px-6 py-16">
-      <header className="mb-8">
-        <Link
-          href={`/@${author.handle}`}
-          className="font-ui hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
-        >
-          ← {author.displayName}
-        </Link>
-      </header>
+  // Build JSON-LD structured data
+  const headline = footnote.title || getFirstLine(footnote.body);
+  const canonicalUrl = `https://footnotes.at/@${author.handle}/${footnote.slug}`;
+  const authorUrl = `https://footnotes.at/@${author.handle}`;
 
-      <article>
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline,
+    author: {
+      "@type": "Person",
+      name: author.displayName,
+      url: authorUrl,
+    },
+    datePublished: footnote.publishedAt?.toISOString() || footnote.createdAt.toISOString(),
+    dateModified: footnote.updatedAt.toISOString(),
+    url: canonicalUrl,
+    publisher: {
+      "@type": "Organization",
+      name: "footnotes.at",
+      url: "https://footnotes.at",
+    },
+  };
+
+  return (
+    <>
+      <Script
+        id="json-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main className="max-w-2xl mx-auto px-6 py-16">
+        <header className="mb-8">
+          <Link
+            href={`/@${author.handle}`}
+            className="font-ui hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+          >
+            ← {author.displayName}
+          </Link>
+        </header>
+
+        <article>
         {footnote.title && <h1 className="mb-4">{footnote.title}</h1>}
 
         <DogEarWrapper
@@ -135,6 +166,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
           More from {author.displayName} →
         </Link>
       </footer>
-    </main>
+      </main>
+    </>
   );
 }

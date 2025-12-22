@@ -14,6 +14,24 @@ export function formatDateShort(date: Date): string {
   return `${year}${month}${day}`;
 }
 
+// Get first non-empty line from text (for untitled headlines)
+export function getFirstLine(text: string, maxLength: number = 100): string {
+  const lines = text.split("\n").filter((line) => line.trim().length > 0);
+  if (lines.length === 0) return "Untitled";
+
+  let firstLine = lines[0]
+    .replace(/^#+\s*/, "") // Remove markdown headers
+    .replace(/\*\*([^*]+)\*\*/g, "$1") // Remove bold
+    .replace(/\*([^*]+)\*/g, "$1") // Remove italic
+    .trim();
+
+  if (firstLine.length > maxLength) {
+    firstLine = firstLine.slice(0, maxLength) + "…";
+  }
+
+  return firstLine || "Untitled";
+}
+
 // Generate excerpt from markdown body
 export function getExcerpt(body: string, maxLength: number = 160): string {
   // Strip markdown syntax for excerpt
