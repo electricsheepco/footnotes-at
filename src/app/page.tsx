@@ -53,7 +53,8 @@ export default async function HomePage() {
               footnotes.at
             </h1>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
-              A quiet place for short writing.
+              A quiet place for short writing. A public short-form writing
+              platform for notes, marginalia, and small essays.
             </p>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
               No likes. No followers. No algorithms.
