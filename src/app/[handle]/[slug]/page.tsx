@@ -1,18 +1,22 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Metadata } from "next";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { Markdown } from "@/components/Markdown";
 import { TagList } from "@/components/TagList";
 import { DogEarWrapper } from "@/components/DogEarWrapper";
-import { formatDate, getFirstLine } from "@/lib/formatting";
+import { formatDate, getFirstLine, getExcerpt } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
+
+const SITE_URL = "https://footnotes.at";
+const OG_IMAGE = `${SITE_URL}/og/footnotes-default.png`;
 
 interface FootnotePageProps {
   params: Promise<{ handle: string; slug: string }>;
 }
 
-export async function generateMetadata({ params }: FootnotePageProps) {
+export async function generateMetadata({ params }: FootnotePageProps): Promise<Metadata> {
   const { handle, slug } = await params;
 
   const author = await db.user.findUnique({
@@ -36,12 +40,38 @@ export async function generateMetadata({ params }: FootnotePageProps) {
     return { title: "Not Found" };
   }
 
-  const title = footnote.title || "Untitled";
-  const description = footnote.body.slice(0, 160).replace(/\n/g, " ");
+  const footnoteTitle = footnote.title || "Untitled";
+  const fullTitle = `${footnoteTitle} — ${author.displayName} — footnotes.at`;
+  const description = getExcerpt(footnote.body, 160);
+  const canonicalUrl = `${SITE_URL}/@${handle}/${slug}`;
 
   return {
-    title: `${title} — ${author.displayName}`,
+    title: fullTitle,
     description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "article",
+      siteName: "footnotes.at",
+      title: fullTitle,
+      description,
+      url: canonicalUrl,
+      images: [
+        {
+          url: OG_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: "footnotes.at",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title: fullTitle,
+      description,
+      images: [OG_IMAGE],
+    },
   };
 }
 
@@ -91,13 +121,14 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
 
   // Build JSON-LD structured data
   const headline = footnote.title || getFirstLine(footnote.body);
-  const canonicalUrl = `https://footnotes.at/@${author.handle}/${footnote.slug}`;
-  const authorUrl = `https://footnotes.at/@${author.handle}`;
+  const canonicalUrl = `${SITE_URL}/@${author.handle}/${footnote.slug}`;
+  const authorUrl = `${SITE_URL}/@${author.handle}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
+    image: [OG_IMAGE],
     author: {
       "@type": "Person",
       name: author.displayName,
@@ -109,7 +140,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
     publisher: {
       "@type": "Organization",
       name: "footnotes.at",
-      url: "https://footnotes.at",
+      url: SITE_URL,
     },
   };
 
