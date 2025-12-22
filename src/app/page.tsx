@@ -82,13 +82,21 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+          <div className="pt-8 border-t border-neutral-200 dark:border-neutral-800 space-y-4">
             <Link
               href={session ? `/@${session.user.handle}/write` : "/login"}
               className="inline-block px-4 py-2 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors"
             >
               Write a footnote →
             </Link>
+            <div>
+              <Link
+                href="/help"
+                className="font-ui text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              >
+                Help →
+              </Link>
+            </div>
           </div>
         </aside>
 
