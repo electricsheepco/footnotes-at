@@ -41,12 +41,13 @@ export async function generateMetadata({ params }: FootnotePageProps): Promise<M
   }
 
   const footnoteTitle = footnote.title || "Untitled";
-  const fullTitle = `${footnoteTitle} — ${author.displayName} — footnotes.at`;
+  const pageTitle = `${footnoteTitle} — ${author.displayName}`;
+  const ogTitle = `${pageTitle} — footnotes.at`;
   const description = getExcerpt(footnote.body, 160);
   const canonicalUrl = `${SITE_URL}/@${handle}/${slug}`;
 
   return {
-    title: fullTitle,
+    title: pageTitle,
     description,
     alternates: {
       canonical: canonicalUrl,
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: FootnotePageProps): Promise<M
     openGraph: {
       type: "article",
       siteName: "footnotes.at",
-      title: fullTitle,
+      title: ogTitle,
       description,
       url: canonicalUrl,
       images: [
@@ -68,7 +69,7 @@ export async function generateMetadata({ params }: FootnotePageProps): Promise<M
     },
     twitter: {
       card: "summary",
-      title: fullTitle,
+      title: ogTitle,
       description,
       images: [OG_IMAGE],
     },
