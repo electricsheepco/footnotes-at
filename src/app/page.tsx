@@ -89,12 +89,18 @@ export default async function HomePage() {
             >
               Write a footnote →
             </Link>
-            <div>
+            <div className="flex gap-4">
+              <Link
+                href="/about"
+                className="font-ui text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              >
+                About
+              </Link>
               <Link
                 href="/help"
                 className="font-ui text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
-                Help →
+                Help
               </Link>
             </div>
           </div>
