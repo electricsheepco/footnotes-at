@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { Markdown } from "@/components/Markdown";
@@ -116,8 +115,7 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
 
   return (
     <>
-      <Script
-        id="json-ld"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
