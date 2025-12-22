@@ -136,19 +136,16 @@ export default async function FootnotePage({ params }: FootnotePageProps) {
           footnoteId={footnote.id}
           initialDogEar={dogEar}
           isLoggedIn={!!session}
-          renderButton={(button) => (
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-4 font-ui">
-                {footnote.publishedAt && (
-                  <time dateTime={footnote.publishedAt.toISOString()}>
-                    {formatDate(footnote.publishedAt)}
-                  </time>
-                )}
-                <TagList tags={footnote.tags} authorHandle={author.handle} />
-              </div>
-              {button}
+          header={
+            <div className="flex items-center gap-4 font-ui">
+              {footnote.publishedAt && (
+                <time dateTime={footnote.publishedAt.toISOString()}>
+                  {formatDate(footnote.publishedAt)}
+                </time>
+              )}
+              <TagList tags={footnote.tags} authorHandle={author.handle} />
             </div>
-          )}
+          }
         >
           <div className="prose prose-neutral dark:prose-invert max-w-none">
             <Markdown content={footnote.body} />

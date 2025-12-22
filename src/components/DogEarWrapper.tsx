@@ -10,7 +10,7 @@ interface DogEarWrapperProps {
   initialDogEar?: { selectedText: string | null } | null;
   isLoggedIn: boolean;
   children: React.ReactNode;
-  renderButton?: (button: React.ReactNode) => React.ReactNode;
+  header?: React.ReactNode;
 }
 
 export function DogEarWrapper({
@@ -18,7 +18,7 @@ export function DogEarWrapper({
   initialDogEar,
   isLoggedIn,
   children,
-  renderButton,
+  header,
 }: DogEarWrapperProps) {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -96,8 +96,13 @@ export function DogEarWrapper({
 
   return (
     <>
-      {/* Render button via render prop if provided */}
-      {renderButton && renderButton(dogEarButton)}
+      {/* Header slot with dog ear button */}
+      {header && (
+        <div className="flex items-center justify-between mb-8">
+          {header}
+          {dogEarButton}
+        </div>
+      )}
 
       {/* Content with selection handling and underline */}
       <div ref={contentRef} className="relative">
