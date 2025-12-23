@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Gentium_Book_Plus, JetBrains_Mono } from "next/font/google";
+import { TopRightLogomark } from "@/components/TopRightLogomark";
 import "./globals.css";
 
 const gentiumBookPlus = Gentium_Book_Plus({
@@ -65,6 +66,7 @@ export default function RootLayout({
       <body
         className={`${gentiumBookPlus.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
+        <TopRightLogomark />
         {children}
       </body>
     </html>

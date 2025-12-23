@@ -51,15 +51,15 @@ export default async function HomePage() {
         <aside className="lg:w-1/3 lg:sticky lg:top-16 lg:self-start">
           <header className="mb-8">
             <div className="flex items-center gap-3 mb-6">
+              <h1 style={{ fontSize: "2.25rem" }}>footnotes.at</h1>
               <Image
                 src="/logomark.png"
                 alt=""
-                width={48}
-                height={48}
-                className="w-12 h-12"
+                width={36}
+                height={36}
+                className="w-9 h-9"
                 priority
               />
-              <h1 style={{ fontSize: "2.25rem" }}>footnotes.at</h1>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
               A quiet place for short writing. A public short-form writing
