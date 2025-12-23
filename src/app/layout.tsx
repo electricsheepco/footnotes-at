@@ -27,6 +27,13 @@ export const metadata: Metadata = {
   description:
     "A quiet place for short writing. No likes, no followers, no algorithms.",
   metadataBase: new URL(baseUrl),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { FootnoteCard } from "@/components/FootnoteCard";
@@ -49,9 +50,17 @@ export default async function HomePage() {
         {/* Left column: About (1/3) */}
         <aside className="lg:w-1/3 lg:sticky lg:top-16 lg:self-start">
           <header className="mb-8">
-            <h1 className="mb-6" style={{ fontSize: "2.25rem" }}>
-              footnotes.at
-            </h1>
+            <div className="flex items-center gap-3 mb-6">
+              <Image
+                src="/logomark.png"
+                alt=""
+                width={48}
+                height={48}
+                className="w-12 h-12"
+                priority
+              />
+              <h1 style={{ fontSize: "2.25rem" }}>footnotes.at</h1>
+            </div>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
               A quiet place for short writing. A public short-form writing
               platform for notes, marginalia, and small essays.
