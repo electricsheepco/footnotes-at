@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { formatDate } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
+import { LogoutButton } from "@/components/LogoutButton";
 
 interface FootnotesPageProps {
   params: Promise<{ handle: string }>;
@@ -58,9 +59,12 @@ export default async function FootnotesPage({ params }: FootnotesPageProps) {
     <main className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex items-baseline justify-between mb-8">
         <h1 className="font-medium">Your footnotes</h1>
-        <p className="font-ui">
-          {subscriberCount} subscriber{subscriberCount !== 1 ? "s" : ""}
-        </p>
+        <div className="flex items-baseline gap-4 font-ui">
+          <span>
+            {subscriberCount} subscriber{subscriberCount !== 1 ? "s" : ""}
+          </span>
+          <LogoutButton />
+        </div>
       </div>
 
       <div className="mb-8">
