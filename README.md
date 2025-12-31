@@ -17,6 +17,7 @@ Everything here is public. The writing flows slowly, newest first.
 - **Author page** (`/@handle`) - Author bio, tag navigation, footnotes list
 - **Footnote page** (`/@handle/slug`) - Individual footnote with full markdown rendering
 - **Tag filtering** (`/@handle/tag/tagname`) - Footnotes filtered by tag
+- **About** (`/about`) - What footnotes.at is, who it's for, how it works
 - **Help** (`/help`) - User guide
 
 ### Authentication
@@ -84,19 +85,22 @@ footnotes-at/
 │   │   │   ├── signup/    # Registration
 │   │   │   ├── subscribe/ # Email subscriptions
 │   │   │   └── change-password/
+│   │   ├── about/         # About page
 │   │   ├── help/          # Help page
 │   │   ├── login/         # Auth page
 │   │   └── page.tsx       # Homepage
 │   ├── components/        # React components
 │   │   ├── DogEarButton.tsx
 │   │   ├── DogEarWrapper.tsx
+│   │   ├── Editor.tsx
 │   │   ├── FootnoteCard.tsx
 │   │   ├── FootnoteCardDogEar.tsx
-│   │   ├── FootnoteEditor.tsx
+│   │   ├── Logomark.tsx
+│   │   ├── LogoutButton.tsx
 │   │   ├── Markdown.tsx
 │   │   ├── SubscribeForm.tsx
-│   │   ├── TagList.tsx
-│   │   └── TextSelectionPopover.tsx
+│   │   ├── TextSelectionPopover.tsx
+│   │   └── TopRightLogomark.tsx
 │   ├── lib/               # Utilities
 │   │   ├── auth.ts        # Session management
 │   │   ├── db.ts          # Prisma client
@@ -242,8 +246,9 @@ DATABASE_URL="..." pnpm db:seed
 | `/@handle` | Author page |
 | `/@handle/slug` | Footnote page |
 | `/@handle/tag/tag` | Tag filter |
-| `/login` | Sign in / Sign up / Change password |
+| `/about` | About footnotes.at |
 | `/help` | User guide |
+| `/login` | Sign in / Sign up / Change password |
 
 ### Authenticated
 
