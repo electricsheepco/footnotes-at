@@ -63,6 +63,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="source"
+          content="https://github.com/electricsheepco/footnotes-at"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+/*
+
+        *
+    footnotes.at
+
+    A quiet place for short writing.
+    No likes. No followers. No algorithms.
+
+    https://footnotes.at
+
+*/
+`,
+          }}
+        />
+      </head>
       <body
         className={`${gentiumBookPlus.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
