@@ -114,6 +114,22 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+
+          <div className="pt-6">
+            <a
+              href="https://www.producthunt.com/products/footnotes-at?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-footnotes-at"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1053530&theme=light"
+                alt="footnotes.at - A quiet place for short writing. | Product Hunt"
+                width={250}
+                height={54}
+              />
+            </a>
+          </div>
         </aside>
 
         {/* Right column: The River (2/3) */}
