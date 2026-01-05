@@ -18,7 +18,8 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://footnotes.at";
+const baseUrl = "https://footnotes.at";
+const ogImage = `${baseUrl}/og/footnotes-og.png`;
 
 export const metadata: Metadata = {
   title: {
@@ -45,10 +46,11 @@ export const metadata: Metadata = {
       "A quiet place for short writing. No likes, no followers, no algorithms.",
     images: [
       {
-        url: "/og/footnotes-og.png",
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: "footnotes.at - A quiet place for short writing",
+        type: "image/png",
       },
     ],
   },
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
     title: "footnotes.at",
     description:
       "A quiet place for short writing. No likes, no followers, no algorithms.",
-    images: ["/og/footnotes-og.png"],
+    images: [ogImage],
   },
   robots: {
     index: true,
