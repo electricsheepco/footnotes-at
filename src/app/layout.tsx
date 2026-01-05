@@ -43,12 +43,21 @@ export const metadata: Metadata = {
     title: "footnotes.at",
     description:
       "A quiet place for short writing. No likes, no followers, no algorithms.",
+    images: [
+      {
+        url: "/og/footnotes-og.png",
+        width: 1200,
+        height: 630,
+        alt: "footnotes.at - A quiet place for short writing",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "footnotes.at",
     description:
       "A quiet place for short writing. No likes, no followers, no algorithms.",
+    images: ["/og/footnotes-og.png"],
   },
   robots: {
     index: true,

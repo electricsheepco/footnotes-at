@@ -10,7 +10,7 @@ import { formatDate, getFirstLine, getExcerpt } from "@/lib/formatting";
 import { FootnoteStatus } from "@prisma/client";
 
 const SITE_URL = "https://footnotes.at";
-const OG_IMAGE = `${SITE_URL}/og/footnotes-default.png`;
+const OG_IMAGE = `${SITE_URL}/og/footnotes-og.png`;
 
 interface FootnotePageProps {
   params: Promise<{ handle: string; slug: string }>;
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: FootnotePageProps): Promise<M
       ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: ogTitle,
       description,
       images: [OG_IMAGE],
